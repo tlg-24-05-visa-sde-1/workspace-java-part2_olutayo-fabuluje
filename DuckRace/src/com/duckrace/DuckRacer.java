@@ -8,7 +8,7 @@ class DuckRacer {
     // properties, fields, and instance variables
     private final int id;
     private String name;
-    private int wins;
+    private int win;
     private final Collection<Reward> rewards = new ArrayList<>();
 
     // constructors
