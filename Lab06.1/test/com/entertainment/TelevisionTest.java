@@ -9,6 +9,7 @@
 package com.entertainment;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 public class TelevisionTest {
@@ -37,16 +38,14 @@ public class TelevisionTest {
         try {
             tv.setVolume(-1);  // if method works correctly, exception is thrown and control jumps to catch block
             fail("Should have thrown IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals("Invalid volume: -1. Allowed range: [0,100].", e.getMessage());  // verify the exception message
         }
 
         try {
             tv.setVolume(101); // if method works correctly, exception is thrown and control jumps to catch block
             fail("Should have thrown IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals("Invalid volume: 101. Allowed range: [0,100].", e.getMessage());  // verify the exception message
         }
     }
@@ -70,14 +69,14 @@ public class TelevisionTest {
      * This is because once the exception is thrown, we don't catch it here, which means it propagates back to the caller of
      * the test method (the JUnit test runner), and method execution terminates immediately - normal exception behavior.
      */
-    @Test(expected=InvalidChannelException.class)
+    @Test(expected = InvalidChannelException.class)
     public void testChangeChannelInvalidChannelException_LowerBound() throws InvalidChannelException {  // unhandled checked exception
         Television tv = new Television();
         tv.changeChannel(0);
         tv.changeChannel(1000);  // WRONG: this is never reached, need another test method (see next test method)
     }
 
-    @Test(expected=InvalidChannelException.class)
+    @Test(expected = InvalidChannelException.class)
     public void testChangeChannelInvalidChannelException_UpperBound() throws InvalidChannelException {  // unhandled checked exception
         Television tv = new Television();
         tv.changeChannel(1000);
@@ -85,8 +84,8 @@ public class TelevisionTest {
 
     @Test
     public void testEquals() {  // brand, volume, display
-        Television tv1 = new Television("RCA", 10, DisplayType.LED);
-        Television tv2 = new Television("RCA", 10, DisplayType.LED);
+        Television tv1 = new Television("RCA", 10, Television.DisplayType.LED);
+        Television tv2 = new Television("RCA", 10, Television.DisplayType.LED);
         assertEquals(tv1, tv2);
         assertEquals(tv2, tv1);
 
@@ -96,8 +95,8 @@ public class TelevisionTest {
 
     @Test
     public void testHashCode() {  // brand, volume, display
-        Television tv1 = new Television("RCA", 10, DisplayType.LED);
-        Television tv2 = new Television("RCA", 10, DisplayType.LED);
+        Television tv1 = new Television("RCA", 10, Television.DisplayType.LED);
+        Television tv2 = new Television("RCA", 10, Television.DisplayType.LED);
         // equal objects must have equal hashcodes
         assertEquals(tv1.hashCode(), tv2.hashCode());
     }
