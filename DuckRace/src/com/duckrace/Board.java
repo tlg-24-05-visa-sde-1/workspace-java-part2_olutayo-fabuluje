@@ -1,6 +1,6 @@
 package com.duckrace;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -38,9 +38,36 @@ import java.util.*;
  *   17       17    Dom        1    DEBIT_CARD
  */
 
-class Board {
+public class Board implements Serializable {
+    private static final String DATA_FILE_PATH = "data/board.dat";
+    private static final String STUDENT_ID_FILE_PATH = "conf/student-ids.csv";
+    /*
+     * Read from binary file data/board.dat or create new Board (if file not there).
+     * NOTE: new Board object only created the *very first time* the app is run.
+     */
+    public static Board getInstance() {
+        Board board = null;
+
+        if (Files.exists(Path.of(DATA_FILE_PATH))) {
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(DATA_FILE_PATH))) {
+                board = (Board) in.readObject();
+
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            board = new Board();
+        }
+
+        return board;
+    }
+
     private final Map<Integer,String> studentIdMap = loadStudentIdMap();
     private final Map<Integer,DuckRacer> racerMap  = new TreeMap<>();
+
+
 
     /*
      * Updates the board (racerMap) by making a DuckRacer win.
@@ -60,7 +87,22 @@ class Board {
 
         }
         racer.win(reward);
+        save();
     }
+    /*
+     * Write this Board object to binary file data/board.dat.
+     */
+    private void save() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DATA_FILE_PATH))) {
+            out.writeObject(this);   // write "me" (I am a Board object) to the file (as dust)
+
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /*
      * This shows the data to the human user
      * We need to show the right side of the map, ideally in an attractive way
@@ -92,7 +134,7 @@ class Board {
         Map<Integer, String> map = new HashMap<>(); new TreeMap<>();
 
         try {
-            List<String> lines = Files.readAllLines(Path.of("conf/student-ids.csv"));
+            List<String> lines = Files.readAllLines(Path.of(STUDENT_ID_FILE_PATH));
             // gpr each line (String), we need to split it into "tokens" based on the comma
             // 1,Amir
             for (String line : lines) {

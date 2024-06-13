@@ -11,8 +11,18 @@ public class EmployeeTest {
 
     @Before
     public void setUp() {
-        emp1 = new SalariedEmployee("John", Date.valueOf("2000-01-01"));
-        emp2 = new SalariedEmployee("John", Date.valueOf("2000-01-01"));
+        //emp1 = new SalariedEmployee("John", Date.valueOf("2000-01-01"));
+       // emp2 = new SalariedEmployee("John", Date.valueOf("2000-01-01"));
+
+        emp1 = getEmployee();
+        emp2 = getEmployee();
+    }
+
+    private static Employee getEmployee() {
+        return new Employee("John", Date.valueOf("2000-01-01")) {
+            public double pay() { return 0; }
+            public double payTaxes() { return 0; }
+        };
     }
 
     @Test

@@ -24,11 +24,21 @@ public class Catalog {
     }
 
     /**
-     * Searches catalog by brand, and returns a collection of matching Televisions.
+     * Searches catalog by one or more brands, and returns a map with an entry (row).
+     * for each brand supplied
+     * with a corresponding
      * A no-matches result should be an empty collection (not null).
      */
     public static Collection<Television> findByBrand(String brand) {
-        return null;
+        Collection<Television> result = new ArrayList<>();
+
+        for (Television tv : catalog) {
+            if (tv.getBrand().equals(brand)) {
+                result.add(tv);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -37,7 +47,11 @@ public class Catalog {
      * A no-brands-passed result should be an empty map (not null).
      */
     public static Map<String,Collection<Television>> findByBrands(String... brands) {
-        return null;
+        Map<String, Collection<Television>> result = new HashMap<>();
+
+        // TODO
+
+        return result;
     }
 
     /**
@@ -47,12 +61,14 @@ public class Catalog {
      * Sometimes this is okay, but not here.
      * 
      * TODO: change this to return a read-only view of the catalog.
-     * 
+
      * You should explore the Javadoc for the java.util.Collections *class*.
      *  This is an all-static utility class, not the java.util.Collection interface.
      */
-    public static Collection<Television> getInventory() {
-        return catalog;
+
+
+    public static Collection<Television> getCatalog() {
+        return Collections.unmodifiableCollection(catalog);
     }
 
     /*

@@ -25,6 +25,24 @@ public class EmployeeFactory {
         // return value
         Employee emp = null;
 
+        // FIRST, extract the 'indicator' from the Map, i.e., "HE" or "SE"
+        String type = inputMap.get("type");
+
+        if ("HE".equals(type)) {
+            // create new HourlyEmployee and assign to return variable 'emp'
+
+        }
+        else if ("SE".equals(type)) {
+            // create new SalariedEmployee and assign to return variable 'emp'
+            String name = inputMap.get("name");
+            Date hireDate = Date.valueOf(inputMap.get("hireDate"));
+            Double salary = Double.valueOf(inputMap.get("salary"));
+            emp = new SalariedEmployee(name, hireDate, salary);
+
+        }
+        else
+            throw new IllegalArgumentException("Invalid type: " + type + ". " + "Valid types are HE and SE.");
+
         return emp;
     }
 }
