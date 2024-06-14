@@ -25,7 +25,7 @@ public class Department {
     }
 
     public void listEmployees() {
-        employees.forEach(emp -> System.out.println(emp));
+        employees.forEach(emp -> System.out::println);
 
 
 
